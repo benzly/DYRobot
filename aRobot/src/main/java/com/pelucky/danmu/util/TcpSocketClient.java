@@ -1,5 +1,7 @@
 package com.pelucky.danmu.util;
 
+import com.pelucky.danmu.thread.ReceiveData;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetAddress;
@@ -42,17 +44,18 @@ public class TcpSocketClient {
     }
 
     public void sendData(String content) {
+        System.out.println("SendData: " + content);
         byte[] messageContent = null;
         try {
             messageContent = douyuProtocolMessage.sendMessageContent(content);
-        } catch (IOException e1) {
-            System.out.println(e1.getMessage());
+        } catch (Exception e1) {
+            System.out.println("ProtocolMessage error: \n" + ReceiveData.errInfo(e1));
         }
         try {
             OutputStream outputStream = socket.getOutputStream();
             outputStream.write(messageContent);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println("SendData Write error: \n" + ReceiveData.errInfo(e));
         }
     }
 }

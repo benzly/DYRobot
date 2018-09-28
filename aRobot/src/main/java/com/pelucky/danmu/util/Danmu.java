@@ -31,11 +31,11 @@ public class Danmu {
     }
 
     public void start() {
+        System.out.println(">>>>[ " + roomID + " ]<<<<");
         receiveData();
+        sendKeepalive();
         tcpSocketClient.sendData("type@=loginreq/roomid@=" + roomID + "/");
         tcpSocketClient.sendData("type@=joingroup/rid@=" + roomID + "/gid@=-9999/");
-        sendKeepalive();
-        System.out.println(">>>> 109064 我要开始抓你们这帮基佬的弹幕啦 <<<<");
     }
 
     private void sendKeepalive() {
@@ -44,9 +44,21 @@ public class Danmu {
         thread.start();
     }
 
+    private void sendAuthKeepalive() {
+        Thread keepAliveThread = new Thread(new KeepaliveSender(tcpSocketClientAuth));
+        keepAliveThread.setName("AuthServerReceiveThread");
+        keepAliveThread.start();
+    }
+
     private void receiveData() {
         Thread thread = new Thread(receiveData);
         thread.setName("DanmuServerReceiveThread");
+        thread.start();
+    }
+
+    private void receiveAuthData() {
+        Thread thread = new Thread(receiveDataAuth);
+        thread.setName("AuthServerReceiveThread");
         thread.start();
     }
 
@@ -54,10 +66,8 @@ public class Danmu {
      * Auth server, The
      */
     public void authDanmu() {
-        // Auth server's receive data
-        /*Thread thread = new Thread(receiveDataAuth);
-        thread.setName("AuthServerReceiveThread");
-        thread.start();*/
+        //receiveAuthData();
+        sendAuthKeepalive();
 
         String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
         String uuid = UUID.randomUUID().toString().replace("-", "").toUpperCase();
@@ -65,23 +75,19 @@ public class Danmu {
         // String vk = MD5Util.MD5(timestamp +
         // "r5*^5;}2#\\${XF[h+;'./.Q'1;,-]f'p[" + uuid);// vk参数
 
+        System.out.println(">>>>>> auth: name=" + username + " roomId=" + roomID + " ltkid=" + ltkid + " stk=" + stk);
+
         String loginreqInfo = "type@=loginreq/username@=" + username + "/ct@=0/password@=/roomid@=" + roomID
                 + "/devid@=" + uuid + "/rt@=" + timestamp + "/vk@=" + vk + "/ver@=20150929/aver@=2017073111/ltkid@="
                 + ltkid + "/biz@=1/stk@=" + stk + "/";
 
         tcpSocketClientAuth.sendData(loginreqInfo);
-
-        // Auth server's keepalive
-        /*Thread keepAliveThread = new Thread(new KeepaliveSender(tcpSocketClientAuth));
-        keepAliveThread.setName("AuthServerReceiveThread");
-        keepAliveThread.start();*/
     }
 
     public void sendDanmu(String message) {
         message = DouyuProtocolMessage.encodeMessage(message);
         System.out.println("Send message: {" + message + ")");
-        tcpSocketClientAuth.sendData("type@=chatmessage/receiver@=0/content@=" + message
-                + "/scope@=/col@=0/pid@=/p2p@=0/nc@=0/rev@=0/ifs@=0/");
+        tcpSocketClientAuth.sendData("type@=chatmessage/receiver@=0/content@=" + message + "/scope@=/col@=0/pid@=/p2p@=0/nc@=0/rev@=0/ifs@=0/");
     }
 }
 

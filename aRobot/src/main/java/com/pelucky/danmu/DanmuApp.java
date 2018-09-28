@@ -2,58 +2,51 @@ package com.pelucky.danmu;
 
 import com.pelucky.danmu.util.Danmu;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 
 public class DanmuApp {
 
     public static void main(String[] args) {
-        Properties properties = new Properties();
-        InputStream inputStream = null;
 
-        String danmu_server = null;
-        int danmu_port = 0;
-        String auth_server = null;
-        int auth_port = 0;
-        String room_id = null;
-        String username = null;
-        String ltkid = null;
-        String stk = null;
-       /* try {
-            inputStream = DanmuApp.class.getClassLoader().getResourceAsStream("../../config.properties");
-            properties.load(inputStream);
-            danmu_server = properties.getProperty("danmu_server", "openbarrage.douyutv.com");
-            danmu_port = Integer.valueOf(properties.getProperty("danmu_port", "8601"));
-            auth_server = properties.getProperty("auth_server", "119.90.49.89");
-            auth_port = Integer.valueOf(properties.getProperty("auth_port", "8092"));
-            room_id = properties.getProperty("room_id");
-            username = properties.getProperty("username");
-            ltkid = properties.getProperty("ltkid");
-            stk = properties.getProperty("stk");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    logger.info(e.getMessage());
+        /*if (true) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String ret = sendGet("https://www.douyu.com/109064", null);
+                    System.out.println("=====================");
+                    System.out.println(ret);
                 }
-            }
+            }).start();
+            return;
         }*/
 
-        danmu_server = "openbarrage.douyutv.com";
-        danmu_port = 8601;
-        auth_server = "116.242.0.39";
-        auth_port = 8092;
-        room_id = "109064";
-        username = "weibo_2J0pAvg1";
-        ltkid = "40872147";
-        stk = "521eaaa917780317";
+
+        String danmu_server = "openbarrage.douyutv.com";
+        int danmu_port = 8601;
+        String auth_server = "175.25.20.18";
+        int auth_port = 8089;
+        String room_id = "109064";
+        String username = "weibo_2J0pAvg1";
+        String ltkid = "40872147";
+        String stk = "521eaaa917780317";
+
+        //豆花
+        room_id = "4668973";
+        auth_server = "175.25.20.19";
+        auth_port = 8093;
 
         Danmu danmu = new Danmu(danmu_server, danmu_port, auth_server, auth_port, room_id, username, ltkid, stk);
 
+        System.out.println("==============start init===============");
         danmu.start();
 
         try {
@@ -61,7 +54,7 @@ public class DanmuApp {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
+        System.out.println("==============start Auth===============");
         danmu.authDanmu();
 
         try {
@@ -70,6 +63,64 @@ public class DanmuApp {
             e.printStackTrace();
         }
 
-        //danmu.sendDanmu("#签到 " + new Date().toString());
+        for (int i = 0; i < 50; i++) {
+            System.out.println("==============send DM===============");
+            danmu.sendDanmu("#OOOOOOO-" + /*new Date().toString() +*/ "-OOOOOOO");
+            try {
+                Thread.sleep(6000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static String sendGet(String url, String param) {
+        String result = "";
+        BufferedReader in = null;
+        try {
+            String urlNameString;
+            if (param != null) {
+                urlNameString = url + "?" + param;
+            } else {
+                urlNameString = url;
+            }
+            URL realUrl = new URL(urlNameString);
+            // 打开和URL之间的连接
+            URLConnection connection = realUrl.openConnection();
+            // 设置通用的请求属性
+            connection.setRequestProperty("accept", "*/*");
+            connection.setRequestProperty("connection", "Keep-Alive");
+            connection.setRequestProperty("user-agent",
+                    "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+            // 建立实际的连接
+            connection.connect();
+            // 获取所有响应头字段
+            Map<String, List<String>> map = connection.getHeaderFields();
+            // 遍历所有的响应头字段
+            for (String key : map.keySet()) {
+                System.out.println(key + "--->" + map.get(key));
+            }
+            // 定义 BufferedReader输入流来读取URL的响应
+            in = new BufferedReader(new InputStreamReader(
+                    connection.getInputStream()));
+            String line;
+            while ((line = in.readLine()) != null) {
+                result += line;
+            }
+        } catch (Exception e) {
+            System.out.println("发送GET请求出现异常！" + e);
+            e.printStackTrace();
+        }
+        // 使用finally块来关闭输入流
+        finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+        return result;
     }
 }
