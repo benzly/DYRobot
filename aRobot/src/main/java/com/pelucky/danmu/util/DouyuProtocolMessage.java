@@ -1,6 +1,7 @@
 package com.pelucky.danmu.util;
 
 import com.pelucky.danmu.DanmuApp;
+import com.pelucky.danmu.RobotThreadPool;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -49,6 +50,8 @@ public class DouyuProtocolMessage {
         return 4 + 4 + (content == null ? 0 : content.getBytes("UTF-8").length) + 1;
     }
 
+    long lastTime = 0;
+
     public void receivedMessageContent(byte[] receiveMsg, Danmu danmu) {
         // Copy from stackoverflow
         String message = bytesToHex(receiveMsg);
@@ -75,9 +78,13 @@ public class DouyuProtocolMessage {
             String decodedText = decodeMessage(text);
             System.out.println(decodedNickname + ": " + decodedText);
 
-            try {
-                new DanmuApp.RobotThread(danmu, decodedText).start();
-            } catch (Exception e) {
+            long current = System.currentTimeMillis();
+            if (current - lastTime >= 5000) {
+                lastTime = current;
+                try {
+                    RobotThreadPool.getInstance().sThreadPool.execute(new DanmuApp.RobotRunnable(danmu, decodedText));
+                } catch (Exception e) {
+                }
             }
         }
     }

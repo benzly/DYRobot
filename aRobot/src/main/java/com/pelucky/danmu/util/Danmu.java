@@ -85,7 +85,7 @@ public class Danmu {
 
     public void sendDanmu(String message) {
         message = DouyuProtocolMessage.encodeMessage(message);
-        System.out.println("Send message: {" + message + ")");
+        System.out.println("-----> Send message: {" + message + ")");
         tcpSocketClientAuth.sendData("type@=chatmessage/receiver@=0/content@=" + message + "/scope@=/col@=0/pid@=/p2p@=0/nc@=0/rev@=0/ifs@=0/");
     }
 }

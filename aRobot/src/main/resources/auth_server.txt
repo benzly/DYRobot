@@ -36,24 +36,23 @@ ip:175.25.20.12   port:8056
 
  %22%7D%5D","swf_url"   "\/common\/simplayer\/WebRoomNormal.swf?v8.694"};
 
-
-
- "dy_did=8863a65577f6203885e0af7300031501;
-  smidV2=20180927174759dff564ca92b58588815b3969e3771d2a001da32a16b673b60;
-  acf_did=8863a65577f6203885e0af7300031501;
-  acf_uid=2638355;
-  acf_username=weibo_2J0pAvg1;
-  acf_nickname=%E9%AD%85%E5%8A%9B%E6%94%B6%E9%9B%86%E8%80%85zZ;
-   acf_own_room=0;
-   acf_groupid=1;
-    acf_phonestatus=1;
-    acf_ct=0;
-     acf_ltkid=40872149;
-     acf_biz=1;
-     acf_stk=79cb8a0fb3f86376;
-     Hm_lvt_e99aee90ec1b2106afe7ec3b199020a7=1538124199,1538124463,1538125665,1538294194;
-      acf_ccn=554db48ca829c5aae03e88e406e34c1a;
-      Hm_lpvt_e99aee90ec1b2106afe7ec3b199020a7=1538296457"
+"dy_did=74f471014e81e9a9a81ad56a00001501;
+acf_did=74f471014e81e9a9a81ad56a00001501;
+smidV2=201809282017338c50b78d719b89d587ce0ce7fa13daa900449917dd0575f80;
+Hm_lvt_e99aee90ec1b2106afe7ec3b199020a7=1538065153,1538137030,1538308700;
+acf_uid=218448281;
+ acf_username=218448281;
+ acf_own_room=0;
+ acf_groupid=1;
+ acf_phonestatus=1;
+ acf_ct=0;
+ acf_ltkid=79218108;
+ acf_biz=1;
+ acf_stk=9503e0685f7da670;
+ acf_ccn=d416f60e953846a8049b222889731c6f;
+ acf_nickname=%E5%8D%96%E8%A1%80%E5%93%A5%E7%9A%84%E5%B0%8F%E8%84%91%E9%98%94;
+ acf_avatar=https%3A%2F%2Fapic.douyucdn.cn%2Fupload%2Favatar_v3%2F201809%2Fba4ff2018c66db21de0aec74e78dc8e2_;
+  Hm_lpvt_e99aee90ec1b2106afe7ec3b199020a7=1538310659"
 
 
 1.使用测试账号，登录斗鱼，进入相应直播间

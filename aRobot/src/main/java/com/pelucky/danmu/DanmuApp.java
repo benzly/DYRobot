@@ -3,6 +3,7 @@ package com.pelucky.danmu;
 import com.google.gson.Gson;
 import com.pelucky.danmu.util.Danmu;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
 
@@ -13,24 +14,20 @@ public class DanmuApp {
 
         String danmu_server = "openbarrage.douyutv.com";
         int danmu_port = 8601;
-        String auth_server = "175.25.20.18";
-        int auth_port = 8089;
+        String auth_server = "119.90.49.86";
+        int auth_port = 8076;
         String room_id = "109064";
-        String username = "weibo_2J0pAvg1";
-        String ltkid = "40872149";
-        String stk = "79cb8a0fb3f86376";
+        String username = "218448281";
+        String ltkid = "79218108";
+        String stk = "9503e0685f7da670";
 
-        //豆花
+        //175.25.20.19","port":"8094"
         //room_id = "4668973";
-        //auth_server = "175.25.20.19";
-        //auth_port = 8093;
+        //auth_server = "114.118.20.33";
+        //auth_port = 8015;
 
-        room_id = "109064";
-        auth_server = "114.118.20.31";
-        auth_port = 8015;
 
         Danmu danmu = new Danmu(danmu_server, danmu_port, auth_server, auth_port, room_id, username, ltkid, stk);
-
         System.out.println("==============start init===============");
         danmu.start();
 
@@ -50,7 +47,7 @@ public class DanmuApp {
         }
 
         System.out.println("==============send DM===============");
-        danmu.sendDanmu("# 开始测试自动聊天机器人 " + ", " + new Date().toString());
+        danmu.sendDanmu("@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
     }
 
     public static String createParams(String text) {
@@ -98,29 +95,36 @@ public class DanmuApp {
         }
     }
 
-    public static class RobotThread extends Thread implements Runnable {
+    public static class RobotRunnable implements Runnable {
 
         Danmu danmu;
         String input;
 
-        public RobotThread(Danmu danmu, String input) {
+        public RobotRunnable(Danmu danmu, String input) {
             this.danmu = danmu;
             this.input = input;
         }
 
         @Override
         public void run() {
-            super.run();
-            System.out.println("===================== " + input);
+            //System.out.println("===================== " + input);
             String params = createParams(input);
             System.out.println("Request: " + params);
             String ret = RequestHelper.JsonSMS(params, "http://openapi.tuling123.com/openapi/api/v2");
             Result result = new Gson().fromJson(ret, Result.class);
             if (result != null && result.results != null && result.results.size() > 0) {
-                System.out.println("问题: " + input);
-                System.out.println("答案: " + result.results.get(0).values.text);
+                //System.out.println("问题: " + input);
+                //System.out.println("答案: " + result.results.get(0).values.text);
 
-                danmu.sendDanmu("Ai: " + result.results.get(0).values.text);
+                /*String from = "我是弱智AI: ";
+                String tip = "";
+                try {
+                    tip = new String(from.getBytes("GBK"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }*/
+                //danmu.sendDanmu(tip + result.results.get(0).values.text);
+                danmu.sendDanmu(result.results.get(0).values.text);
             }
         }
     }
