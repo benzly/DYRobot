@@ -1,5 +1,6 @@
 package com.pelucky.danmu.thread;
 
+import com.pelucky.danmu.util.Danmu;
 import com.pelucky.danmu.util.TcpSocketClient;
 
 import java.io.ByteArrayOutputStream;
@@ -10,10 +11,12 @@ import java.io.StringWriter;
 
 public class ReceiveData implements Runnable {
     private TcpSocketClient tcpSocketClient;
+    private Danmu danmu;
     int errorCount;
 
-    public ReceiveData(TcpSocketClient tcpSocketClient) {
+    public ReceiveData(TcpSocketClient tcpSocketClient, Danmu danmu) {
         this.tcpSocketClient = tcpSocketClient;
+        this.danmu = danmu;
     }
 
     @Override
@@ -28,7 +31,7 @@ public class ReceiveData implements Runnable {
                 if (line != -1) {
                     byteOutput.write(msg, 0, line);
                     byte[] receiveMsg = byteOutput.toByteArray();
-                    tcpSocketClient.getDouyuProtocolMessage().receivedMessageContent(receiveMsg);
+                    tcpSocketClient.getDouyuProtocolMessage().receivedMessageContent(receiveMsg, danmu);
                 } else {
                     System.out.println("ReceiveData ret null");
                 }

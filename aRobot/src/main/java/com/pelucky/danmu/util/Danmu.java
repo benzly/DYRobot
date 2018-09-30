@@ -20,10 +20,10 @@ public class Danmu {
     public Danmu(String danmu_server, int danmu_port, String auth_server, int auth_port, String roomID, String username, String ltkid, String stk) {
         tcpSocketClient = new TcpSocketClient(danmu_server, danmu_port);
         keepaliveSender = new KeepaliveSender(tcpSocketClient);
-        receiveData = new ReceiveData(tcpSocketClient);
+        receiveData = new ReceiveData(tcpSocketClient, this);
 
         tcpSocketClientAuth = new TcpSocketClient(auth_server, auth_port);
-        receiveDataAuth = new ReceiveData(tcpSocketClientAuth);
+        receiveDataAuth = new ReceiveData(tcpSocketClientAuth, this);
         this.roomID = roomID;
         this.username = username;
         this.ltkid = ltkid;
@@ -72,8 +72,7 @@ public class Danmu {
         String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
         String uuid = UUID.randomUUID().toString().replace("-", "").toUpperCase();
         String vk = MD5Util.MD5(timestamp + "7oE9nPEG9xXV69phU31FYCLUagKeYtsF" + uuid);
-        // String vk = MD5Util.MD5(timestamp +
-        // "r5*^5;}2#\\${XF[h+;'./.Q'1;,-]f'p[" + uuid);// vk参数
+        //String vk = MD5Util.MD5(timestamp + "r5*^5;}2#\\${XF[h+;'./.Q'1;,-]f'p[" + uuid);// vk参数
 
         System.out.println(">>>>>> auth: name=" + username + " roomId=" + roomID + " ltkid=" + ltkid + " stk=" + stk);
 

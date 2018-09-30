@@ -1,5 +1,7 @@
 package com.pelucky.danmu.util;
 
+import com.pelucky.danmu.DanmuApp;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -47,7 +49,7 @@ public class DouyuProtocolMessage {
         return 4 + 4 + (content == null ? 0 : content.getBytes("UTF-8").length) + 1;
     }
 
-    public void receivedMessageContent(byte[] receiveMsg) {
+    public void receivedMessageContent(byte[] receiveMsg, Danmu danmu) {
         // Copy from stackoverflow
         String message = bytesToHex(receiveMsg);
 
@@ -72,6 +74,11 @@ public class DouyuProtocolMessage {
             String text = changeToChinese(receiveMsg, textIndex, textEndIndex, 6);
             String decodedText = decodeMessage(text);
             System.out.println(decodedNickname + ": " + decodedText);
+
+            try {
+                new DanmuApp.RobotThread(danmu, decodedText).start();
+            } catch (Exception e) {
+            }
         }
     }
 
