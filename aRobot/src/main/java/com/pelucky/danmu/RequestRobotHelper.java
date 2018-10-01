@@ -2,13 +2,13 @@ package com.pelucky.danmu;
 
 
 import com.google.gson.Gson;
-import com.pelucky.danmu.util.Danmu;
+import com.pelucky.danmu.util.DanMu;
 
 import java.util.List;
 
 public class RequestRobotHelper {
 
-    public static int sKeyIndex = 4;
+    public static int sKeyIndex = 0;
     public static String[] keys = new String[]{
             "07a84a182e514fc48ef123ca49ece60a",
             "7c544fe10ce3438d9f84171560d437de",
@@ -17,27 +17,33 @@ public class RequestRobotHelper {
             "b47e0633eb63475a9a19f2fc8148de5b"
     };
     private static RequestRobotHelper sInstance;
-    Danmu danmu;
+    DanMu danmu;
     long lastTime;
     //弹幕发送间隔
-    static int sDmDuration = 2000;
+    public static int sDmDuration = 3000;
 
-    private RequestRobotHelper(Danmu danmu) {
-        this.danmu = danmu;
+    private RequestRobotHelper() {
     }
 
-    public static RequestRobotHelper getInstance(Danmu danmu) {
+    public static RequestRobotHelper getInstance() {
         if (sInstance == null) {
             synchronized (RequestRobotHelper.class) {
                 if (sInstance == null) {
-                    sInstance = new RequestRobotHelper(danmu);
+                    sInstance = new RequestRobotHelper();
                 }
             }
         }
         return sInstance;
     }
 
+    public void bindDM(DanMu danmu) {
+        this.danmu = danmu;
+    }
+
     public void requestAnswer(String question) {
+        if (danmu == null) {
+            return;
+        }
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastTime > sDmDuration) {
             lastTime = currentTime;
@@ -55,6 +61,9 @@ public class RequestRobotHelper {
         params.perception.inputText.text = text;
 
         params.userInfo = new UserInfo();
+        if (sKeyIndex >= keys.length) {
+            sKeyIndex = 0;
+        }
         params.userInfo.apiKey = keys[sKeyIndex];
         params.userInfo.userId = "328760";
         return new Gson().toJson(params);
@@ -108,6 +117,9 @@ public class RequestRobotHelper {
 
         @Override
         public void run() {
+            if (danmu == null) {
+                return;
+            }
             String ret = RequestHelper.JsonSMS(createParams(input), "http://openapi.tuling123.com/openapi/api/v2");
             Result result = new Gson().fromJson(ret, Result.class);
             if (result != null && result.results != null && result.results.size() > 0) {
@@ -121,7 +133,9 @@ public class RequestRobotHelper {
                         sKeyIndex = 0;
                     }
                 } else {
-                    danmu.sendDanmu(an);
+                    if (danmu != null) {
+                        danmu.sendDanmu(an);
+                    }
                 }
             }
         }

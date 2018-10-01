@@ -9,12 +9,12 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-public class ReceiveData implements Runnable {
+public class ReceiveDataAuth implements Runnable {
     private TcpSocketClient tcpSocketClient;
     private DanMu danmu;
     private boolean stop;
 
-    public ReceiveData(TcpSocketClient tcpSocketClient, DanMu danmu) {
+    public ReceiveDataAuth(TcpSocketClient tcpSocketClient, DanMu danmu) {
         this.tcpSocketClient = tcpSocketClient;
         this.danmu = danmu;
     }

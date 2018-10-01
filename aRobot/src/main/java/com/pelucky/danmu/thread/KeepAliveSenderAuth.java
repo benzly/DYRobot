@@ -2,10 +2,10 @@ package com.pelucky.danmu.thread;
 
 import com.pelucky.danmu.util.TcpSocketClient;
 
-public class KeepAliveSender implements Runnable {
+public class KeepAliveSenderAuth implements Runnable {
     private TcpSocketClient tcpSocketClient;
 
-    public KeepAliveSender(TcpSocketClient tcpSocketClient) {
+    public KeepAliveSenderAuth(TcpSocketClient tcpSocketClient) {
         this.tcpSocketClient = tcpSocketClient;
     }
 
@@ -18,13 +18,13 @@ public class KeepAliveSender implements Runnable {
     @Override
     public void run() {
         while (!stop) {
-            System.out.println("===============Send KeepAlive=================");
+            System.out.println("===============Send KeepAliveAuth=================");
             long unixTime = System.currentTimeMillis() / 1000L;
             this.tcpSocketClient.sendData("type@=keeplive/tick@=" + unixTime + "/");
             try {
-                Thread.sleep(40000);
+                Thread.sleep(20000);
             } catch (InterruptedException e) {
-                System.out.println("KeepAliveSender Sleep interrupted!");
+                System.out.println("KeepAliveSenderAuth Sleep interrupted!");
                 e.printStackTrace();
             }
         }

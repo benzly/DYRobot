@@ -17,13 +17,7 @@ public class DouyuProtocolMessage {
     private int delay = 2000;
     static String localName;
 
-    static {
-        try {
-            localName = new String("卖血哥的小脑阔".getBytes("GBK"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-    }
+    private int mRebootCount = 0;
 
     public DouyuProtocolMessage() {
         byteArrayOutputStream = new ByteArrayOutputStream();
@@ -59,7 +53,7 @@ public class DouyuProtocolMessage {
         return 4 + 4 + (content == null ? 0 : content.getBytes("UTF-8").length) + 1;
     }
 
-    public void receivedMessageContent(byte[] receiveMsg, Danmu danmu) {
+    public void receivedMessageContent(byte[] receiveMsg, DanMu danmu) {
         // Copy from stackoverflow
         String message = bytesToHex(receiveMsg);
 
@@ -85,7 +79,18 @@ public class DouyuProtocolMessage {
             String decodedText = decodeMessage(text);
             System.out.println("[" + decodedNickname + ": " + decodedText + "]");
 
-            RequestRobotHelper.getInstance(danmu).requestAnswer(decodedText);
+            if ("#reboot".equals(decodedText)) {
+                mRebootCount++;
+                System.out.println("**** RebootCount: " + mRebootCount + " ****");
+            }
+
+            if (mRebootCount >= 5) {
+                mRebootCount = 0;
+                danmu.restart();
+            } else {
+                RequestRobotHelper.getInstance().bindDM(danmu);
+                RequestRobotHelper.getInstance().requestAnswer(decodedText);
+            }
         } else {
             //System.out.println("Other messageType=" + messageType);
         }

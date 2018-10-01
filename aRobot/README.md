@@ -15,7 +15,7 @@ start
 pel@raspberrypi:~/DouyuDanmu/target $ OpenJDK Zero VM warning: TieredCompilation is disabled in this release.
 19:54:37.809 [main] INFO  com.pelucky.danmu.util.TcpSocketClient - Connect to Server 124.95.174.146:8601.
 19:54:37.934 [main] INFO  com.pelucky.danmu.util.TcpSocketClient - Open Socket successfully
-19:54:37.960 [main] INFO  com.pelucky.danmu.util.Danmu - Danmu start succefully!
+19:54:37.960 [main] INFO  com.pelucky.danmu.util.DanMu - Danmu start succefully!
 AcerSword: 赢了
 浮夸的谎言: 这个叫啥游戏
 斑驳o: 汪涵玩的确实不错

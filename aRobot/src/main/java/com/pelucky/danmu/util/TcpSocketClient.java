@@ -6,16 +6,15 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.UUID;
 
 public class TcpSocketClient {
     private InetAddress host;
     private int port;
     private Socket socket;
     private DouyuProtocolMessage douyuProtocolMessage;
-    private Danmu danmu;
+    private DanMu danmu;
 
-    public TcpSocketClient(String server, int port, Danmu danmu) {
+    public TcpSocketClient(String server, int port, DanMu danmu) {
         try {
             this.host = InetAddress.getByName(server);
             this.port = port;
@@ -52,15 +51,6 @@ public class TcpSocketClient {
     public void restart() {
         restarting = true;
         closeSocket();
-        try {
-            this.socket = new Socket(this.host, this.port);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            Thread.sleep(1000);
-        } catch (Exception e) {
-        }
         danmu.restart();
         restarting = false;
     }
