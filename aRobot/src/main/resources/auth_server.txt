@@ -1,58 +1,24 @@
-$ROOM.args =
-{"rpc_switch"   1,"no_home"   1,"no_home_time"   "2026-11-20 18   28","live_url"   0,"res_path"   "\/common\/",
 
-"server_config"   
 
-ip:119.90.49.102   port:8008
-ip:119.90.49.107   port:8031
-ip:175.25.20.18   port:8086
-ip:114.118.20.31   port:8012
-ip:175.25.20.15   port:8072
-ip:114.118.20.38   port:8014
-ip:114.118.20.36   port:8011
-ip:114.118.20.35   port:8013
-ip:175.25.18.123   port:8099
-ip:119.90.49.110   port:8050
-ip:175.25.20.18   port:8090
-ip:119.90.49.87   port:8083
-ip:119.90.49.104   port:8018
-ip:119.90.49.110   port:8049
-ip:175.25.18.123   port:8098
-ip:114.118.20.37   port:8013
-ip:119.90.49.101   port:8001
-ip:175.25.20.13   port:8061
-ip:175.25.18.123   port:8097
-ip:114.118.20.34   port:8014
-ip:119.90.49.105   port:8023
-ip:114.118.20.33   port:8014
-ip:119.90.49.86   port:8079
-ip:114.118.20.31   port:8015
-ip:119.90.49.105   port:8021
-ip:119.90.49.104   port:8017
-ip:119.90.49.86   port:8080
-ip:119.90.49.110   port:8046
-ip:175.25.20.19   port:8094
-ip:175.25.20.12   port:8056
-
- %22%7D%5D","swf_url"   "\/common\/simplayer\/WebRoomNormal.swf?v8.694"};
 
 "dy_did=74f471014e81e9a9a81ad56a00001501;
 acf_did=74f471014e81e9a9a81ad56a00001501;
 smidV2=201809282017338c50b78d719b89d587ce0ce7fa13daa900449917dd0575f80;
-Hm_lvt_e99aee90ec1b2106afe7ec3b199020a7=1538065153,1538137030,1538308700;
 acf_uid=218448281;
- acf_username=218448281;
- acf_own_room=0;
- acf_groupid=1;
- acf_phonestatus=1;
- acf_ct=0;
- acf_ltkid=79218108;
+acf_username=218448281;
+acf_own_room=0;
+acf_groupid=1;
+acf_phonestatus=1;
+acf_ct=0;
+acf_ltkid=79218108;
  acf_biz=1;
  acf_stk=9503e0685f7da670;
- acf_ccn=d416f60e953846a8049b222889731c6f;
  acf_nickname=%E5%8D%96%E8%A1%80%E5%93%A5%E7%9A%84%E5%B0%8F%E8%84%91%E9%98%94;
- acf_avatar=https%3A%2F%2Fapic.douyucdn.cn%2Fupload%2Favatar_v3%2F201809%2Fba4ff2018c66db21de0aec74e78dc8e2_;
-  Hm_lpvt_e99aee90ec1b2106afe7ec3b199020a7=1538310659"
+ Hm_lvt_e99aee90ec1b2106afe7ec3b199020a7=1538065153,1538137030,1538308700,1538314705;
+ acf_ccn=60c314f7669360d60ac31bafc987dcf6; acf_avatar=https%3A//apic.douyucdn.cn/upload/avatar_v3/201809/ba4ff2018c66db21de0aec74e78dc8e2_;
+ _dys_lastPageCode=page_yuba_detail,page_yuba_detail;
+ _dys_refer_action_code=show_yuba_detail_banner;
+  Hm_lpvt_e99aee90ec1b2106afe7ec3b199020a7=1538324485"
 
 
 1.使用测试账号，登录斗鱼，进入相应直播间

@@ -6,17 +6,20 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.UUID;
 
 public class TcpSocketClient {
     private InetAddress host;
     private int port;
     private Socket socket;
     private DouyuProtocolMessage douyuProtocolMessage;
+    private Danmu danmu;
 
-    public TcpSocketClient(String server, int port) {
+    public TcpSocketClient(String server, int port, Danmu danmu) {
         try {
             this.host = InetAddress.getByName(server);
             this.port = port;
+            this.danmu = danmu;
             System.out.println("Connect to Server{" + host.getHostAddress() + "}:{" + port + "}");
             this.socket = new Socket(this.host, this.port);
             System.out.println("Open Socket successfully");
@@ -43,8 +46,31 @@ public class TcpSocketClient {
         }
     }
 
+    public static String temp = "";
+    public boolean restarting = false;
+
+    public void restart() {
+        restarting = true;
+        closeSocket();
+        try {
+            this.socket = new Socket(this.host, this.port);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            Thread.sleep(1000);
+        } catch (Exception e) {
+        }
+        danmu.restart();
+        restarting = false;
+    }
+
     public void sendData(String content) {
-        System.out.println("SendData: " + content);
+        if (restarting) {
+            System.out.println("====Current is restart dm server====");
+            return;
+        }
+        //System.out.println("SendData: " + content);
         byte[] messageContent = null;
         try {
             messageContent = douyuProtocolMessage.sendMessageContent(content);
@@ -56,6 +82,10 @@ public class TcpSocketClient {
             outputStream.write(messageContent);
         } catch (Exception e) {
             System.out.println("SendData Write error: \n" + ReceiveData.errInfo(e));
+            try {
+                restart();
+            } catch (Exception e1) {
+            }
         }
     }
 }

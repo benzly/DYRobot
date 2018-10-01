@@ -12,7 +12,6 @@ import java.io.StringWriter;
 public class ReceiveData implements Runnable {
     private TcpSocketClient tcpSocketClient;
     private Danmu danmu;
-    int errorCount;
 
     public ReceiveData(TcpSocketClient tcpSocketClient, Danmu danmu) {
         this.tcpSocketClient = tcpSocketClient;
@@ -21,7 +20,7 @@ public class ReceiveData implements Runnable {
 
     @Override
     public void run() {
-        while (true && errorCount < 10) {
+        while (true) {
             try {
                 ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
                 InputStream inputStream = tcpSocketClient.getSocket().getInputStream();
@@ -33,20 +32,12 @@ public class ReceiveData implements Runnable {
                     byte[] receiveMsg = byteOutput.toByteArray();
                     tcpSocketClient.getDouyuProtocolMessage().receivedMessageContent(receiveMsg, danmu);
                 } else {
-                    System.out.println("ReceiveData ret null");
+                    //System.out.println("ReceiveData ret null");
                 }
             } catch (Exception e) {
-                errorCount++;
                 System.out.println("Receive error:\n" + errInfo(e));
             }
-
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
-        System.out.println("~~~~~~~~ReceiveData Exit~~~~~~~~~~");
     }
 
     public static String errInfo(Exception e) {

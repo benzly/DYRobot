@@ -9,9 +9,15 @@ public class KeepaliveSender implements Runnable {
         this.tcpSocketClient = tcpSocketClient;
     }
 
+    private boolean stop;
+
+    public void stop() {
+        stop = true;
+    }
+
     @Override
     public void run() {
-        while (true) {
+        while (!stop) {
             long unixTime = System.currentTimeMillis() / 1000L;
             this.tcpSocketClient.sendData("type@=keeplive/tick@=" + unixTime + "/");
             try {

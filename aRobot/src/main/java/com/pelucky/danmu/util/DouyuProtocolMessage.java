@@ -1,7 +1,6 @@
 package com.pelucky.danmu.util;
 
-import com.pelucky.danmu.DanmuApp;
-import com.pelucky.danmu.RobotThreadPool;
+import com.pelucky.danmu.RequestRobotHelper;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -15,6 +14,16 @@ public class DouyuProtocolMessage {
     private int[] end;
     private ByteArrayOutputStream byteArrayOutputStream;
     private final static char[] hexArray = "0123456789ABCDEF".toCharArray();
+    private int delay = 2000;
+    static String localName;
+
+    static {
+        try {
+            localName = new String("卖血哥的小脑阔".getBytes("GBK"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
 
     public DouyuProtocolMessage() {
         byteArrayOutputStream = new ByteArrayOutputStream();
@@ -50,8 +59,6 @@ public class DouyuProtocolMessage {
         return 4 + 4 + (content == null ? 0 : content.getBytes("UTF-8").length) + 1;
     }
 
-    long lastTime = 0;
-
     public void receivedMessageContent(byte[] receiveMsg, Danmu danmu) {
         // Copy from stackoverflow
         String message = bytesToHex(receiveMsg);
@@ -76,16 +83,11 @@ public class DouyuProtocolMessage {
             String decodedNickname = decodeMessage(nickname);
             String text = changeToChinese(receiveMsg, textIndex, textEndIndex, 6);
             String decodedText = decodeMessage(text);
-            System.out.println(decodedNickname + ": " + decodedText);
+            System.out.println("[" + decodedNickname + ": " + decodedText + "]");
 
-            long current = System.currentTimeMillis();
-            if (current - lastTime >= 5000) {
-                lastTime = current;
-                try {
-                    RobotThreadPool.getInstance().sThreadPool.execute(new DanmuApp.RobotRunnable(danmu, decodedText));
-                } catch (Exception e) {
-                }
-            }
+            RequestRobotHelper.getInstance(danmu).requestAnswer(decodedText);
+        } else {
+            //System.out.println("Other messageType=" + messageType);
         }
     }
 

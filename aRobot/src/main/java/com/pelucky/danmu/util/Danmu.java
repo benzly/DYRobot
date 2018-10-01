@@ -10,6 +10,7 @@ public class Danmu {
     TcpSocketClient tcpSocketClient;
     private TcpSocketClient tcpSocketClientAuth;
     private KeepaliveSender keepaliveSender;
+    private KeepaliveSender keepaliveSenderAuth;
     private ReceiveData receiveData;
     private ReceiveData receiveDataAuth;
     private String roomID;
@@ -18,12 +19,14 @@ public class Danmu {
     private String stk;
 
     public Danmu(String danmu_server, int danmu_port, String auth_server, int auth_port, String roomID, String username, String ltkid, String stk) {
-        tcpSocketClient = new TcpSocketClient(danmu_server, danmu_port);
+        tcpSocketClient = new TcpSocketClient(danmu_server, danmu_port, this);
         keepaliveSender = new KeepaliveSender(tcpSocketClient);
         receiveData = new ReceiveData(tcpSocketClient, this);
 
-        tcpSocketClientAuth = new TcpSocketClient(auth_server, auth_port);
+        tcpSocketClientAuth = new TcpSocketClient(auth_server, auth_port, this);
+        keepaliveSenderAuth = new KeepaliveSender(tcpSocketClientAuth);
         receiveDataAuth = new ReceiveData(tcpSocketClientAuth, this);
+
         this.roomID = roomID;
         this.username = username;
         this.ltkid = ltkid;
@@ -38,16 +41,27 @@ public class Danmu {
         tcpSocketClient.sendData("type@=joingroup/rid@=" + roomID + "/gid@=-9999/");
     }
 
+    public void restart() {
+        tcpSocketClient.sendData("type@=loginreq/roomid@=" + roomID + "/");
+        tcpSocketClient.sendData("type@=joingroup/rid@=" + roomID + "/gid@=-9999/");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        authDanmu();
+    }
+
     private void sendKeepalive() {
         Thread thread = new Thread(keepaliveSender);
-        thread.setName("DanmuServerKeepaliveThread");
+        thread.setName("ServerKeepaliveThread");
         thread.start();
     }
 
     private void sendAuthKeepalive() {
-        Thread keepAliveThread = new Thread(new KeepaliveSender(tcpSocketClientAuth));
-        keepAliveThread.setName("AuthServerReceiveThread");
-        keepAliveThread.start();
+        Thread thread = new Thread(keepaliveSenderAuth);
+        thread.setName("AuthServerReceiveThread");
+        thread.start();
     }
 
     private void receiveData() {
@@ -67,7 +81,7 @@ public class Danmu {
      */
     public void authDanmu() {
         //receiveAuthData();
-        sendAuthKeepalive();
+        //sendAuthKeepalive();
 
         String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
         String uuid = UUID.randomUUID().toString().replace("-", "").toUpperCase();
@@ -81,12 +95,14 @@ public class Danmu {
                 + ltkid + "/biz@=1/stk@=" + stk + "/";
 
         tcpSocketClientAuth.sendData(loginreqInfo);
+
+        TcpSocketClient.temp = loginreqInfo;
     }
 
     public void sendDanmu(String message) {
         message = DouyuProtocolMessage.encodeMessage(message);
         System.out.println("-----> Send message: {" + message + ")");
-        tcpSocketClientAuth.sendData("type@=chatmessage/receiver@=0/content@=" + message + "/scope@=/col@=0/pid@=/p2p@=0/nc@=0/rev@=0/ifs@=0/");
+        tcpSocketClientAuth.sendData("type@=chatmessage/receiver@=0/content@=" + message + "/scope@=/col@=1/pid@=/p2p@=0/nc@=0/rev@=0/ifs@=0/");
     }
 }
 
