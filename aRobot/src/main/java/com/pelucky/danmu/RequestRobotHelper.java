@@ -17,10 +17,12 @@ public class RequestRobotHelper {
             "b47e0633eb63475a9a19f2fc8148de5b"
     };
     private static RequestRobotHelper sInstance;
-    DanMu danmu;
-    long lastTime;
+    private DanMu danmu;
+
+    //上一次发送弹幕的时间
+    public static long sLastDMTime;
     //弹幕发送间隔
-    public static int sDmDuration = 3000;
+    public static int sDmDuration = 8 * 1000;
 
     private RequestRobotHelper() {
     }
@@ -40,17 +42,15 @@ public class RequestRobotHelper {
         this.danmu = danmu;
     }
 
-    public void requestAnswer(String question) {
+    public void requestAnswer(DanMu danmu, String question) {
         if (danmu == null) {
+            this.danmu = null;
             return;
         }
-        long currentTime = System.currentTimeMillis();
-        if (currentTime - lastTime > sDmDuration) {
-            lastTime = currentTime;
-            try {
-                RobotThreadPool.getInstance().sThreadPool.execute(new RobotRunnable(question));
-            } catch (Exception e) {
-            }
+        this.danmu = danmu;
+        try {
+            RobotThreadPool.getInstance().sThreadPool.execute(new RobotRunnable(question));
+        } catch (Exception e) {
         }
     }
 
@@ -124,7 +124,6 @@ public class RequestRobotHelper {
             Result result = new Gson().fromJson(ret, Result.class);
             if (result != null && result.results != null && result.results.size() > 0) {
                 String an = result.results.get(0).values.text;
-                //System.out.println(">>>>> Ret: " + an + " ret=" + ret);
                 //请求次数达到上限
                 if (result.intent != null && result.intent.code == 4003) {
                     System.out.println("Warning: " + an);
@@ -134,7 +133,7 @@ public class RequestRobotHelper {
                     }
                 } else {
                     if (danmu != null) {
-                        danmu.sendDanmu(an);
+                        danmu.sendDm(an);
                     }
                 }
             }

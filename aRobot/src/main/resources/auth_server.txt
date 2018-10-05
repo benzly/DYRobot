@@ -1,27 +1,24 @@
 
 
 
-"dy_did=74f471014e81e9a9a81ad56a00001501;
-acf_did=74f471014e81e9a9a81ad56a00001501;
-smidV2=201809282017338c50b78d719b89d587ce0ce7fa13daa900449917dd0575f80;
-acf_uid=218448281;
-acf_username=218448281;
-acf_own_room=0;
-acf_groupid=1;
-acf_phonestatus=1;
-acf_ct=0;
-acf_ltkid=79218108;
- acf_biz=1;
- acf_stk=9503e0685f7da670;
- acf_nickname=%E5%8D%96%E8%A1%80%E5%93%A5%E7%9A%84%E5%B0%8F%E8%84%91%E9%98%94;
- Hm_lvt_e99aee90ec1b2106afe7ec3b199020a7=1538065153,1538137030,1538308700,1538314705;
- acf_ccn=60c314f7669360d60ac31bafc987dcf6; acf_avatar=https%3A//apic.douyucdn.cn/upload/avatar_v3/201809/ba4ff2018c66db21de0aec74e78dc8e2_;
- _dys_lastPageCode=page_yuba_detail,page_yuba_detail;
- _dys_refer_action_code=show_yuba_detail_banner;
-  Hm_lpvt_e99aee90ec1b2106afe7ec3b199020a7=1538324485"
-
-
 1.使用测试账号，登录斗鱼，进入相应直播间
 2.查看网页源码，找到 $ROOM.args，urlencode后随便找到一个id、port
 3.更新cookies，F12，console中输入document.cookie()
 4.
+
+
+
+
+"dy_did=74f471014e81e9a9a81ad56a00001501;
+acf_did=74f471014e81e9a9a81ad56a00001501;
+smidV2=201809282017338c50b78d719b89d587ce0ce7fa13daa900449917dd0575f80;
+loginrefer=pt_e98jdd7behml;
+_dys_refer_action_code=show_yuba_detail_banner;
+Hm_lvt_e99aee90ec1b2106afe7ec3b199020a7=1538314705,1538372655,1538464001,1538465049;
+acf_uid=217019489; acf_username=217019489;
+acf_nickname=%E5%8D%96%E8%A1%80%E5%93%A5%E7%9A%84%E6%9C%BA%E5%99%A8%E4%BA%BA1%E5%8F%B7;
+ acf_own_room=0; acf_groupid=1; acf_phonestatus=1;
+ acf_avatar=https%3A%2F%2Fapic.douyucdn.cn%2Fupload%2Favatar_v3%2F201808%2F8cfd053da85e9f776595b2ef5eba4323_;
+acf_ct=0; acf_ltkid=39608387;
+acf_biz=1; acf_stk=f7536da418f99399;
+Hm_lpvt_e99aee90ec1b2106afe7ec3b199020a7=1538465098"

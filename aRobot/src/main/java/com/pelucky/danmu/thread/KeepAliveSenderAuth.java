@@ -18,14 +18,14 @@ public class KeepAliveSenderAuth implements Runnable {
     @Override
     public void run() {
         while (!stop) {
-            System.out.println("===============Send KeepAliveAuth=================");
+            //System.out.println("===============Send KeepAliveAuth=================");
             long unixTime = System.currentTimeMillis() / 1000L;
             this.tcpSocketClient.sendData("type@=keeplive/tick@=" + unixTime + "/");
             try {
                 Thread.sleep(20000);
-            } catch (InterruptedException e) {
+            } catch (Exception e) {
                 System.out.println("KeepAliveSenderAuth Sleep interrupted!");
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
     }

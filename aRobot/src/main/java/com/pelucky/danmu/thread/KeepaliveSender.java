@@ -18,14 +18,14 @@ public class KeepAliveSender implements Runnable {
     @Override
     public void run() {
         while (!stop) {
-            System.out.println("===============Send KeepAlive=================");
+            //System.out.println("===============Send KeepAlive=================");
             long unixTime = System.currentTimeMillis() / 1000L;
             this.tcpSocketClient.sendData("type@=keeplive/tick@=" + unixTime + "/");
             try {
                 Thread.sleep(40000);
-            } catch (InterruptedException e) {
+            } catch (Exception e) {
                 System.out.println("KeepAliveSender Sleep interrupted!");
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.pelucky.danmu.thread;
 
 import com.pelucky.danmu.util.DanMu;
+import com.pelucky.danmu.util.DouyuProtocolMessage;
 import com.pelucky.danmu.util.TcpSocketClient;
 
 import java.io.ByteArrayOutputStream;
@@ -35,9 +36,13 @@ public class ReceiveDataAuth implements Runnable {
                 if (line != -1) {
                     byteOutput.write(msg, 0, line);
                     byte[] receiveMsg = byteOutput.toByteArray();
-                    tcpSocketClient.getDouyuProtocolMessage().receivedMessageContent(receiveMsg, danmu);
+                    //tcpSocketClient.getDouyuProtocolMessage().receivedMessageContent(receiveMsg, danmu);
+                    /*if (receiveMsg != null) {
+                        String ret = DouyuProtocolMessage.hexStringToString(DouyuProtocolMessage.bytesToHex(receiveMsg));
+                        System.out.println("Auth: " + ret);
+                    }*/
                 } else {
-                    System.out.println("ReceiveData ret null");
+                    //System.out.println("ReceiveData ret null");
                 }
             } catch (Exception e) {
                 System.out.println("Receive error:\n" + errInfo(e));

@@ -45,13 +45,12 @@ public class TcpSocketClient {
         }
     }
 
-    public static String temp = "";
     public boolean restarting = false;
 
     public void restart() {
         restarting = true;
         closeSocket();
-        danmu.restart();
+        danmu.restart(null);
         restarting = false;
     }
 
@@ -60,7 +59,6 @@ public class TcpSocketClient {
             System.out.println("====Current is restart dm server====");
             return;
         }
-        //System.out.println("SendData: " + content);
         byte[] messageContent = null;
         try {
             messageContent = douyuProtocolMessage.sendMessageContent(content);

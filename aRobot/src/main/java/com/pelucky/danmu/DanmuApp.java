@@ -1,68 +1,83 @@
 package com.pelucky.danmu;
 
 import com.pelucky.danmu.util.DanMu;
+import com.pelucky.danmu.util.DouyuProtocolMessage;
 
 public class DanmuApp {
 
+    public static final String MASTER_UID = "2638355";
+    public static final String MASTER_RID = "109064";
+    public static final String RID_33 = "4854976";
 
-    public static void main(String[] args) {
-        new RobotStartManager().start();
+    public static final String sDMServer = "openbarrage.douyutv.com";
+    public static final int sDMPort = 8601;
+
+    public static String sRoomId = "109064";
+
+    //小脑阔
+    public static String sUID = "218448281";
+    public static String sLtkid = "29234913";
+    public static String sStk = "a1a072253fe4356b";
+
+    public static String sAuthServer = "119.90.49.87";
+    public static int sAuthServerPort = 8082;
+
+    public static boolean isYaBa = false;
+
+
+    public static final String sInitTip;
+    public static final String sInitTipYB;
+
+    static {
+        sInitTip = DouyuProtocolMessage.utf2GBK("@@@ Hi 你的小脑阔已上线, 发言CD " + RequestRobotHelper.sDmDuration / 1000 + "S @@@");
+        sInitTipYB = "@@@ 小脑阔已悲伤上线, 不再回答!!! @@@";
+
+        //卖血哥的小脑阔
+        //sUID = "218445635";
+        //sLtkid = "45874079";
+        //sStk = "c558da63f0bc4bb3";
+
+        //sRoomId = "4205173";
     }
 
+    public static void main(String[] args) {
+        String tip;
+        if (isYaBa) {
+            tip = sInitTipYB;
+        } else {
+            tip = sInitTip;
+        }
+        new RobotStartManager().start(tip);
+    }
 
     static class RobotStartManager implements DanMu.OnDMCallback {
-
-        String danmu_server = "openbarrage.douyutv.com";
-        int danmu_port = 8601;
-
-        String auth_server = "114.118.20.36";
-        int auth_port = 8014;
-        String room_id = "109064";
-        String username = "218448281";
-        String ltkid = "79218108";
-        String stk = "9503e0685f7da670";
         DanMu danmu;
 
-        public void start() {
-            System.out.println("==============start init===============");
-            room_id = "109064";
-            auth_server = "114.118.20.33";
-            auth_port = 8013;
+        public void start(String args) {
+            final String tip = args + " " + DanMu.sChars.charAt((int) (Math.random() * DanMu.sChars.length()));
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    danmu = new DanMu(danmu_server, danmu_port, auth_server, auth_port, room_id, username, ltkid, stk, RobotStartManager.this);
-                    danmu.start();
-
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    System.out.println("==============start Auth===============");
-                    danmu.authDanmu();
-
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    System.out.println("==============send DM===============");
-                    String utf = "你的小脑阔已上线, CD " + RequestRobotHelper.sDmDuration / 1000 + "S";
-                    String tip = "";
-                    try {
-                        tip = new String(utf.getBytes("GBK"));
-                    } catch (Exception e) {
-                    }
-                    danmu.sendDanmu("@@@ " + tip + " @@@");
+                    danmu = new DanMu(sDMServer, sDMPort, sAuthServer, sAuthServerPort, sRoomId, sUID, sLtkid, sStk, RobotStartManager.this);
+                    danmu.start(tip);
                 }
             }).start();
         }
 
         @Override
-        public void onReboot() {
+        public void onReboot(String tip) {
             System.out.println("==============Restart init===============");
-            start();
+            if (tip == null) {
+                if (isYaBa) {
+                    tip = sInitTipYB;
+                } else {
+                    tip = sInitTip;
+                }
+            }
+            try {
+                start(tip);
+            } catch (Exception e) {
+            }
         }
     }
 }
