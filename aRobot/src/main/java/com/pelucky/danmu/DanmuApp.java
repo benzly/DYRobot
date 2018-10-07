@@ -5,6 +5,14 @@ import com.pelucky.danmu.util.DouyuProtocolMessage;
 
 public class DanmuApp {
 
+    //我想要更多智慧，智慧智慧快来吧。把我变聪明。
+    //卖血哥的小脑阔在思考，妈妈说爱思考的孩子更聪明。
+    //原谅我有时不聪明，你能陪着我一起成长吗？
+    //你接错了，退出成语接龙模式！
+    //好想把脑壳打开看看。
+    //我没有听懂，靠近我一点慢慢说哦。
+    //我没听明白，再说一遍吧
+
     public static final String MASTER_UID = "2638355";
     public static final String MASTER_RID = "109064";
     public static final String RID_33 = "4854976";
@@ -15,12 +23,12 @@ public class DanmuApp {
     public static String sRoomId = "109064";
 
     //小脑阔
-    public static String sUID = "218448281";
-    public static String sLtkid = "29234913";
-    public static String sStk = "a1a072253fe4356b";
+    public static String sUID = "218445635";
+    public static String sLtkid = "45874081";
+    public static String sStk = "512c5e70dce1d996";
 
-    public static String sAuthServer = "119.90.49.87";
-    public static int sAuthServerPort = 8082;
+    public static String sAuthServer = "114.118.20.37";
+    public static int sAuthServerPort = 8013;
 
     public static boolean isYaBa = false;
 

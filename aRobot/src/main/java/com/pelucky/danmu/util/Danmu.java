@@ -159,7 +159,7 @@ public class DanMu {
      * Auth server, The
      */
     private void authDanmu() {
-        startReceiveAuthData();
+        //startReceiveAuthData();
         startSendAuthKeepalive();
 
         String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
