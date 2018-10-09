@@ -3,10 +3,29 @@ package com.pelucky.danmu;
 
 import com.google.gson.Gson;
 import com.pelucky.danmu.util.DanMu;
+import com.pelucky.danmu.util.DouyuProtocolMessage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RequestRobotHelper {
+
+    public static final ArrayList<String> sIgnoreAnswers = new ArrayList();
+    public static final String sExitJieLong;
+    public static final String sExitJieLongProxy;
+
+    static {
+        sIgnoreAnswers.add(DouyuProtocolMessage.utf2GBK("我想要更多智慧，智慧智慧快来吧。把我变聪明。"));
+        sIgnoreAnswers.add(DouyuProtocolMessage.utf2GBK("卖血哥的小脑阔在思考，妈妈说爱思考的孩子更聪明。"));
+        sIgnoreAnswers.add(DouyuProtocolMessage.utf2GBK("谅我有时不聪明，你能陪着我一起成长吗？"));
+        sIgnoreAnswers.add(DouyuProtocolMessage.utf2GBK("好想把脑壳打开看看。"));
+        sIgnoreAnswers.add(DouyuProtocolMessage.utf2GBK("我没有听懂，靠近我一点慢慢说哦。"));
+        sIgnoreAnswers.add(DouyuProtocolMessage.utf2GBK("我没听明白，再说一遍吧"));
+
+        sExitJieLong = DouyuProtocolMessage.utf2GBK("你接错了，退出成语接龙模式！");
+        sExitJieLongProxy = DouyuProtocolMessage.utf2GBK("你接错了，退出成语接龙！");
+    }
+
 
     public static int sKeyIndex = 0;
     public static String[] keys = new String[]{
@@ -22,7 +41,7 @@ public class RequestRobotHelper {
     //上一次发送弹幕的时间
     public static long sLastDMTime;
     //弹幕发送间隔
-    public static int sDmDuration = 8 * 1000;
+    public static int sDmDuration = 10 * 1000;
 
     private RequestRobotHelper() {
     }
@@ -132,7 +151,11 @@ public class RequestRobotHelper {
                         sKeyIndex = 0;
                     }
                 } else {
-                    if (danmu != null) {
+                    if (!sIgnoreAnswers.contains(an) && danmu != null) {
+                        if (sExitJieLong.equals(an)) {
+                            an = sExitJieLongProxy;
+                            an = danmu.randomAddTails(an);
+                        }
                         danmu.sendDm(an);
                     }
                 }

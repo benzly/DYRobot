@@ -46,6 +46,8 @@ public class DouyuProtocolMessage {
     private static String sOther;
     private static String sGifUnkown;
 
+    private static String sTemp;
+
     //唤醒词
     private static String sWakeUpWords;
     //招换到某个房间
@@ -73,6 +75,8 @@ public class DouyuProtocolMessage {
         sMagicGo = utf2GBK("脑阔切换:");
         sMagicHome = utf2GBK("脑阔回家");
         sMagic33 = utf2GBK("脑阔去看姗姗");
+
+        sTemp = utf2GBK(", 血哥今天有比赛，详情请加直播公告里的qun， 拜托大家去加加油啊!");
     }
 
     public DouyuProtocolMessage() {
@@ -130,6 +134,10 @@ public class DouyuProtocolMessage {
         // Determine type of message
         if (messageType.equals("chatmsg")) {
             //type@=chatmsg/rid@=301712/gid@=-9999/uid@=123456/nn@=test/txt@=666/level@=1/
+
+            if (DanmuApp.isYaBa) {
+                return;
+            }
 
             String uName = "";
             String uid = "";
@@ -265,7 +273,9 @@ public class DouyuProtocolMessage {
                 //return;
             }
             if (danmu.isDuringCD()) {
-                return;
+                if (!DanmuApp.isYaBa) {
+                    return;
+                }
             }
             /** type@=uenter/rid@=109064/uid@=218448281/nn@=卖血哥的小脑阔/level@=10/ic@=avatar_v3@S201809@Sba4ff2018c66db21de0aec74e78dc8e2/nl@=7/rni@=0/el@=/sahf@=0/wgei@=0/fl@=7/   */
 
@@ -298,8 +308,8 @@ public class DouyuProtocolMessage {
                 }
             }
             if (uName != null && (uLevel >= 40 || fLevel >= 12)) {
-                String tip = sJingChangTip + " " + uName;
-                if (fLevel > 0) {
+                String tip = sJingChangTip + " " + uName + sTemp;
+               /* if (fLevel > 0) {
                     if (fLevel < 15) {
                         tip = tip + sFLevelLowTip;
                     } else if (fLevel < 26) {
@@ -307,6 +317,11 @@ public class DouyuProtocolMessage {
                     } else {
                         tip = tip.concat(sFLevelTop);
                     }
+                }*/
+                if (danmu.isDuringCD()) {
+                    System.out.println("---> Ignore welcome: During-cd  <---");
+                    danmu.updateLastUnHandlerQuestion(tip);
+                    return;
                 }
                 danmu.sendDm(tip);
             }
@@ -317,7 +332,9 @@ public class DouyuProtocolMessage {
                 //return;
             }
             if (danmu.isDuringCD()) {
-                return;
+                if (!DanmuApp.isYaBa) {
+                    return;
+                }
             }
 
             /** type@=dgb/gfid=1/gs@=59872/gfcnt@=1/uid@=1/rid=1/gid@=-9999/nn@=someone/str@=1/level@=1/dw@=1/ */
@@ -351,10 +368,20 @@ public class DouyuProtocolMessage {
             }
 
             if ("750".equals(gfid)) {
+                if (danmu.isDuringCD()) {
+                    System.out.println("---> Ignore gif: During-cd  <---");
+                    danmu.updateLastUnHandlerQuestion((s3Q + uName + sBanKa));
+                    return;
+                }
                 danmu.sendDm(s3Q + uName + sBanKa);
             } else if ("824".equals(gfid) || "1027".equals(gfid) || "191".equals(gfid) || "192".equals(gfid)) {
 
             } else {
+                if (danmu.isDuringCD()) {
+                    System.out.println("---> Ignore gif: During-cd  <---");
+                    danmu.updateLastUnHandlerQuestion((s3Q + uName + sBanKa));
+                    return;
+                }
                 danmu.sendDm(s3Q + uName + sOther);
             }
 
@@ -457,8 +484,9 @@ public class DouyuProtocolMessage {
 
     public static String utf2GBK(String utf) {
         try {
-            return new String(utf.getBytes("GBK"));//转换成gbk编码
-        } catch (UnsupportedEncodingException e) {
+            //return new String(utf.getBytes("GBK"));//转换成gbk编码
+            return utf;
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return "";

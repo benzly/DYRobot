@@ -1,5 +1,6 @@
 package com.pelucky.danmu.util;
 
+import com.pelucky.danmu.DanmuApp;
 import com.pelucky.danmu.RequestRobotHelper;
 import com.pelucky.danmu.thread.KeepAliveSender;
 import com.pelucky.danmu.thread.KeepAliveSenderAuth;
@@ -63,17 +64,17 @@ public class DanMu {
         //发送登陆请求
         tcpSocketClient.sendData("type@=loginreq/roomid@=" + roomID + "/");
         //发送入组请求
-        sleep(500);
+        sleep(1000);
         tcpSocketClient.sendData("type@=joingroup/rid@=" + roomID + "/gid@=-9999/");
         //开始心跳发送
-        sleep(500);
+        sleep(1000);
         startSendKeepalive();
         //开始弹幕组验证
-        sleep(1000);
+        sleep(2000);
         System.out.println("==============start Auth===============");
         authDanmu();
         //发送弹幕提示1
-        sleep(3000);
+        sleep(2000);
         System.out.println("==============send Tips DM1===============");
         //sendTipDm(startTip);
         //发送弹幕提示2
@@ -226,7 +227,9 @@ public class DanMu {
                         sendDm(mLastUnHandlerAnswer);
                         mLastUnHandlerAnswer = null;
                     } else if (mLastUnHandlerQuestion != null) {
-                        RequestRobotHelper.getInstance().requestAnswer(DanMu.this, mLastUnHandlerQuestion);
+                        if (!DanmuApp.isYaBa) {
+                            RequestRobotHelper.getInstance().requestAnswer(DanMu.this, mLastUnHandlerQuestion);
+                        }
                         mLastUnHandlerQuestion = null;
                     }
                     sleep = RequestRobotHelper.sDmDuration;

@@ -9,16 +9,12 @@
 
 
 
-"dy_did=74f471014e81e9a9a81ad56a00001501;
-acf_did=74f471014e81e9a9a81ad56a00001501;
-smidV2=201809282017338c50b78d719b89d587ce0ce7fa13daa900449917dd0575f80;
-loginrefer=pt_e98jdd7behml;
-_dys_refer_action_code=show_yuba_detail_banner;
-Hm_lvt_e99aee90ec1b2106afe7ec3b199020a7=1538314705,1538372655,1538464001,1538465049;
-acf_uid=217019489; acf_username=217019489;
-acf_nickname=%E5%8D%96%E8%A1%80%E5%93%A5%E7%9A%84%E6%9C%BA%E5%99%A8%E4%BA%BA1%E5%8F%B7;
- acf_own_room=0; acf_groupid=1; acf_phonestatus=1;
- acf_avatar=https%3A%2F%2Fapic.douyucdn.cn%2Fupload%2Favatar_v3%2F201808%2F8cfd053da85e9f776595b2ef5eba4323_;
-acf_ct=0; acf_ltkid=39608387;
-acf_biz=1; acf_stk=f7536da418f99399;
-Hm_lpvt_e99aee90ec1b2106afe7ec3b199020a7=1538465098"
+"dy_did=08c5a565c661c46896d68f0700091501;
+acf_did=08c5a565c661c46896d68f0700091501;
+smidV2=20181008133248aa9366e01246a0021bb7237803f036fd0059d8dfbfe06d230;
+Hm_lvt_e99aee90ec1b2106afe7ec3b199020a7=1538976762,1539048217;
+ acf_uid=218445635; acf_username=218445635;
+  acf_nickname=%E8%A1%80%E5%93%A5%E7%9A%84%E5%B0%8F%E8%84%91%E9%98%94;
+  acf_own_room=0; acf_groupid=1; acf_phonestatus=1;
+  acf_avatar=https%3A%2F%2Fapic.douyucdn.cn%2Fupload%2Favatar_v3%2F201810%2F1b9e28a6925be06b1d22393669e2a079_; acf_ct=0;
+  acf_ltkid=45874084; acf_biz=1; acf_stk=3d3f9aadd08aa91f; acf_ccn=d197b599670bfea2cd232c797df4fccf; Hm_lpvt_e99aee90ec1b2106afe7ec3b199020a7=1539048340"

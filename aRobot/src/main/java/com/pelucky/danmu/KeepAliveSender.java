@@ -1,4 +1,4 @@
-package com.pelucky.danmu.thread;
+package com.pelucky.danmu;
 
 import com.pelucky.danmu.util.TcpSocketClient;
 
@@ -30,3 +30,4 @@ public class KeepAliveSender implements Runnable {
         }
     }
 }
+
