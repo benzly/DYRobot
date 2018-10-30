@@ -22,7 +22,7 @@ public class KeepAliveSenderAuth implements Runnable {
             long unixTime = System.currentTimeMillis() / 1000L;
             this.tcpSocketClient.sendData("type@=keeplive/tick@=" + unixTime + "/");
             try {
-                Thread.sleep(20000);
+                Thread.sleep(40000);
             } catch (Exception e) {
                 System.out.println("KeepAliveSenderAuth Sleep interrupted!");
                 //e.printStackTrace();

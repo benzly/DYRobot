@@ -16,29 +16,24 @@ public class DanmuApp {
     public static String sRoomId = "109064";
 
     //小脑阔
-    public static String sUID = "218445635";
-    public static String sLtkid = "45874084";
-    public static String sStk = "3d3f9aadd08aa91f";
+    public static String sUID = "218448281";
+    public static String sLtkid = "23495188";
+    public static String sStk = "bd7e583cbd51ffed";
 
     public static String sAuthServer = "114.118.20.33";
     public static int sAuthServerPort = 8013;
 
-    public static boolean isYaBa = true;
+    public static boolean isYaBa = false;
 
 
     public static final String sInitTip;
     public static final String sInitTipYB;
 
+
     static {
-        sInitTip = DouyuProtocolMessage.utf2GBK("@@@ Hi 你的小脑阔已上线, 发言CD " + RequestRobotHelper.sDmDuration / 1000 + "S @@@");
-        sInitTipYB = "@@@ 小脑阔已悲伤上线, 不再回答!!! @@@";
-
-        //卖血哥的小脑阔
-        //sUID = "218445635";
-        //sLtkid = "45874079";
-        //sStk = "c558da63f0bc4bb3";
-
-        //sRoomId = "4205173";
+        sInitTip = DouyuProtocolMessage.utf2GBK(DanMu.sSmile + " Hi 你的小脑阔来啦, 发言CD "
+                + RequestRobotHelper.getDmDuration() / 1000 + "S " + DanMu.sSmile);
+        sInitTipYB = DanMu.sSmile + " 小脑阔已悲伤上线, 不再回答!!! " + DanMu.sSmile;
     }
 
     public static void main(String[] args) {
@@ -55,7 +50,7 @@ public class DanmuApp {
         DanMu danmu;
 
         public void start(String args) {
-            final String tip = args + " " + DanMu.sChars.charAt((int) (Math.random() * DanMu.sChars.length()));
+            final String tip = DanMu.randomAddTails(args);
             new Thread(new Runnable() {
                 @Override
                 public void run() {

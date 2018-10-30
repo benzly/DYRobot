@@ -46,8 +46,6 @@ public class DouyuProtocolMessage {
     private static String sOther;
     private static String sGifUnkown;
 
-    private static String sTemp;
-
     //唤醒词
     private static String sWakeUpWords;
     //招换到某个房间
@@ -60,14 +58,14 @@ public class DouyuProtocolMessage {
         sLeftSymbol = utf2GBK("[");
         sRightSymbol = utf2GBK("]");
         sJingChangTip = utf2GBK("欢迎");
-        sFLevelLowTip = utf2GBK(", 请继续提升牌子等级哟!!!");
-        sFLevelHigh = utf2GBK(", 牌子好高级呀, 请好好保持哟!!!");
-        sFLevelTop = utf2GBK(", 哦嚯!  粉丝牌亮瞎了我的钛合金眼!!!");
+        sFLevelLowTip = utf2GBK(", 请继续提升牌子等级哟 ");
+        sFLevelHigh = utf2GBK(", 牌子好高级呀, 请好好保持哟 ");
+        sFLevelTop = utf2GBK(", 哦嚯!  粉丝牌亮瞎了我的钛合金眼 ");
         s3Q = utf2GBK("谢谢 ");
-        sOther = utf2GBK(" 送的礼物!!!");
-        sBanKa = utf2GBK(" 送的办卡, 大气!!");
-        sFeiJi = utf2GBK(" 送的飞机! 大气大气!!!");
-        sHuoJian = utf2GBK(" 送的火箭!  嚯，您真的猛!!!!!");
+        sOther = utf2GBK(" 送的礼物 ");
+        sBanKa = utf2GBK(" 送的办卡, 大气 ");
+        sFeiJi = utf2GBK(" 送的飞机! 大气大气 ");
+        sHuoJian = utf2GBK(" 送的火箭!  嚯，您真的猛 ");
         sGifUnkown = utf2GBK(" 送的什么鬼礼物? 哈, 不好意思, 我还没登记过该礼物...");
 
         sWakeUpWords = utf2GBK("脑阔");
@@ -75,8 +73,6 @@ public class DouyuProtocolMessage {
         sMagicGo = utf2GBK("脑阔切换:");
         sMagicHome = utf2GBK("脑阔回家");
         sMagic33 = utf2GBK("脑阔去看姗姗");
-
-        sTemp = utf2GBK(", 血哥今天有比赛，详情请加直播公告里的qun， 拜托大家去加加油啊!");
     }
 
     public DouyuProtocolMessage() {
@@ -134,7 +130,7 @@ public class DouyuProtocolMessage {
         // Determine type of message
         if (messageType.equals("chatmsg")) {
             //type@=chatmsg/rid@=301712/gid@=-9999/uid@=123456/nn@=test/txt@=666/level@=1/
-
+            //System.out.println("+++ " + utf8Message);
             if (DanmuApp.isYaBa) {
                 return;
             }
@@ -210,10 +206,10 @@ public class DouyuProtocolMessage {
                     if (mSetCDCount >= CD_THRESHOLD) {
                         mSetCDCount = 0;
                         if (cd >= MIN_CD) {
-                            RequestRobotHelper.sDmDuration = cd;
+                            RequestRobotHelper.setDmDuration(cd);
                             danmu.sendTipDm(utf2GBK("@@@ 小脑阔累计收到了" + CD_THRESHOLD + "条[CD]口令, 发言CD改为 " + cd / 1000 + "S @@@"));
                         } else {
-                            danmu.sendTipDm(utf2GBK("@@@ 你们是SD?? 发言CD过快, 我会被Ban掉的 @@@"));
+                            danmu.sendTipDm(DanMu.sSb + utf2GBK(" 你们是SD?? 发言CD过快, 我会被Ban掉的 ") + DanMu.sSb);
                         }
                     }
                 } catch (Exception e) {
@@ -228,7 +224,8 @@ public class DouyuProtocolMessage {
                 mStopSendCount = 0;
                 mHasStopedTime = 0;
                 mSetCDCount = 0;
-                danmu.restart(utf2GBK("@@@ Hi 小脑阔累计收到了" + REBOOT_THRESHOLD + "条[reboot]口令, 已经启动, 发言CD " + RequestRobotHelper.sDmDuration / 1000 + "S @@@"));
+                danmu.restart(DanMu.sSmile + utf2GBK(" Hi 小脑阔累计收到了" + REBOOT_THRESHOLD + "条[reboot]口令, 已经启动, 发言CD "
+                        + RequestRobotHelper.getDmDuration() / 1000 + "S ") + DanMu.sSmile);
             } else {
                 //正常发弹幕
                 if (mStopSendCount < STOP_THRESHOLD) {
@@ -246,20 +243,20 @@ public class DouyuProtocolMessage {
                 else if (mStopSendCount == STOP_THRESHOLD) {
                     mStopSendCount++;
                     mHasStopedTime = System.currentTimeMillis();
-                    danmu.sendTipDm(utf2GBK("@@@ 小脑阔累计收到了" + STOP_THRESHOLD + "条[stop]口令, 即将关闭, 呜呜!! @@@"));
+                    danmu.sendTipDm(DanMu.sCry + utf2GBK(" 小脑阔累计收到了" + STOP_THRESHOLD + "条[stop]口令, 即将关闭, 呜呜!! ") + DanMu.sCry);
                 }
                 //触发开始
                 else {
                     long mid = System.currentTimeMillis() - mHasStopedTime;
                     //禁言超过N分钟自动放出来，哈哈哈
                     if (mid >= WAKEUP_THRESHOLD * 60 * 1000) {
-                        danmu.sendTipDm(utf2GBK("@@@ 嘿嘿, 我爸爸让我每" + WAKEUP_THRESHOLD + "分钟自动启动, 我又活啦!!! @@@"));
+                        danmu.sendTipDm(DanMu.sSmile + utf2GBK(" 嘿嘿, 我爸爸让我每" + WAKEUP_THRESHOLD + "分钟自动启动, 我又活啦!!! ") + DanMu.sSmile);
                         mStopSendCount = 0;
                         return;
                     }
                     //判断是否有人问了脑阔，进行回答
                     else if (matchWord(text, sWakeUpWords)) {
-                        danmu.sendTipDm(utf2GBK("@@@ 呜呜, 我被坏人封住了嘴, 快用" + REBOOT_THRESHOLD + "条[reboot]口令把我吻醒!!"));
+                        danmu.sendTipDm(DanMu.sCry + utf2GBK(" 呜呜, 我被坏人封住了嘴, 快用" + REBOOT_THRESHOLD + "条[reboot]口令把我吻醒!! ") + DanMu.sCry);
                     } else {
                         System.out.println("Current disable DM, times=" + mid);
                     }
@@ -308,8 +305,8 @@ public class DouyuProtocolMessage {
                 }
             }
             if (uName != null && (uLevel >= 40 || fLevel >= 12)) {
-                String tip = sJingChangTip + " " + uName + sTemp;
-               /* if (fLevel > 0) {
+                String tip = sJingChangTip + " " + uName;
+                if (fLevel > 0) {
                     if (fLevel < 15) {
                         tip = tip + sFLevelLowTip;
                     } else if (fLevel < 26) {
@@ -317,10 +314,10 @@ public class DouyuProtocolMessage {
                     } else {
                         tip = tip.concat(sFLevelTop);
                     }
-                }*/
+                }
                 if (danmu.isDuringCD()) {
                     System.out.println("---> Ignore welcome: During-cd  <---");
-                    danmu.updateLastUnHandlerQuestion(tip);
+                    danmu.updateLastUnHandlerWelcomeOrGif(tip);
                     return;
                 }
                 danmu.sendDm(tip);
@@ -370,7 +367,7 @@ public class DouyuProtocolMessage {
             if ("750".equals(gfid)) {
                 if (danmu.isDuringCD()) {
                     System.out.println("---> Ignore gif: During-cd  <---");
-                    danmu.updateLastUnHandlerQuestion((s3Q + uName + sBanKa));
+                    danmu.updateLastUnHandlerWelcomeOrGif((s3Q + uName + sBanKa));
                     return;
                 }
                 danmu.sendDm(s3Q + uName + sBanKa);
@@ -379,7 +376,7 @@ public class DouyuProtocolMessage {
             } else {
                 if (danmu.isDuringCD()) {
                     System.out.println("---> Ignore gif: During-cd  <---");
-                    danmu.updateLastUnHandlerQuestion((s3Q + uName + sBanKa));
+                    danmu.updateLastUnHandlerWelcomeOrGif((s3Q + uName + sBanKa));
                     return;
                 }
                 danmu.sendDm(s3Q + uName + sOther);

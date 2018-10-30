@@ -3,6 +3,7 @@ package com.pelucky.danmu;
 import com.pelucky.danmu.message.Handler;
 import com.pelucky.danmu.message.Looper;
 import com.pelucky.danmu.message.Message;
+import com.pelucky.danmu.util.DanMu;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Timer;
@@ -15,6 +16,9 @@ public class Test {
 
         System.out.println(utf2GBK(srcString));
 
+        String s = DanMu.sCharArray[(int) (Math.random() * DanMu.sCharArray.length)];
+
+        System.out.println(s);
     }
 
     public static String utf2GBK(String utf) {

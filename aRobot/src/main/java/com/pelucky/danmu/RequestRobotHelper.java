@@ -7,6 +7,7 @@ import com.pelucky.danmu.util.DouyuProtocolMessage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class RequestRobotHelper {
 
@@ -41,9 +42,18 @@ public class RequestRobotHelper {
     //上一次发送弹幕的时间
     public static long sLastDMTime;
     //弹幕发送间隔
-    public static int sDmDuration = 10 * 1000;
+    static int sDmDuration = 8 * 1000;
+    static Random random = new Random();
 
     private RequestRobotHelper() {
+    }
+
+    public static int getDmDuration() {
+        return sDmDuration + random.nextInt(5);
+    }
+
+    public static void setDmDuration(int duration) {
+        sDmDuration = duration;
     }
 
     public static RequestRobotHelper getInstance() {
@@ -151,7 +161,7 @@ public class RequestRobotHelper {
                         sKeyIndex = 0;
                     }
                 } else {
-                    if (!sIgnoreAnswers.contains(an) && danmu != null) {
+                    if (/*!sIgnoreAnswers.contains(an) &&*/ danmu != null) {
                         if (sExitJieLong.equals(an)) {
                             an = sExitJieLongProxy;
                             an = danmu.randomAddTails(an);
